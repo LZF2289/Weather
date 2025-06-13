@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="输入城市名称"
-        android:inputType="text"
+        android:inputType="textPersonName"
         android:layout_marginBottom="16dp"/>
 
     <Button
@@ -30,42 +30,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="获取天气"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 加载进度条 -->
+    <ProgressBar
+        android:id="@+id/progressBarLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/textViewCityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="城市: "
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/textViewTemperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="温度: "
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/textViewCondition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="状况: "
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/textViewWindSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="风速: "
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/textViewHumidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="湿度: "
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/textViewError"

@@ -1,25 +1,27 @@
 package com.example.weather;
 
 public class WeatherData {
-    private String cityName;    // 城市名称
-    private String temperature; // 温度
-    private String condition;   // 天气状况
-    private String windSpeed;   // 风速
-    private String humidity;    // 湿度
-    private String errorMessage; // 用于显示错误信息
-
+    private String location;
+    private String temperature;
+    private String condition;
+    private String wind;
+    private String humidity;
+    private String lowTemp; // 新增最低温度
+    private boolean error;
+    private String errorMessage;
     public WeatherData() {
         // 默认构造函数
     }
 
     // 成功获取数据时的构造函数
-    public WeatherData(String cityName, String temperature, String condition, String windSpeed, String humidity) {
-        this.cityName = cityName;
-        this.temperature = temperature;
+    public WeatherData(String location, String highTemp, String lowTemp, String condition, String wind, String humidity) {
+        this.location = location;
+        this.temperature = highTemp;
+        this.lowTemp = lowTemp;
         this.condition = condition;
-        this.windSpeed = windSpeed;
+        this.wind = wind;
         this.humidity = humidity;
-        this.errorMessage = null; // 没有错误
+        this.error = false;
     }
 
     // 发生错误时的构造函数
