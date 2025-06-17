@@ -1,25 +1,26 @@
 package com.example.weather;
 
 public class WeatherData {
-    private String location;
+    private String cityName; // 更改名称与getter/setter相匹配
     private String temperature;
     private String condition;
-    private String wind;
+    private String windSpeed; // 更改名称与getter/setter相匹配
     private String humidity;
     private String lowTemp; // 新增最低温度
     private boolean error;
     private String errorMessage;
+
     public WeatherData() {
         // 默认构造函数
     }
 
     // 成功获取数据时的构造函数
-    public WeatherData(String location, String highTemp, String lowTemp, String condition, String wind, String humidity) {
-        this.location = location;
+    public WeatherData(String cityName, String highTemp, String lowTemp, String condition, String windSpeed, String humidity) {
+        this.cityName = cityName;
         this.temperature = highTemp;
         this.lowTemp = lowTemp;
         this.condition = condition;
-        this.wind = wind;
+        this.windSpeed = windSpeed;
         this.humidity = humidity;
         this.error = false;
     }
@@ -27,6 +28,7 @@ public class WeatherData {
     // 发生错误时的构造函数
     public WeatherData(String errorMessage) {
         this.errorMessage = errorMessage;
+        this.error = true; // 确保error标志被正确设置
     }
 
     // Getters 和 Setters 方法
@@ -68,6 +70,14 @@ public class WeatherData {
 
     public void setHumidity(String humidity) {
         this.humidity = humidity;
+    }
+
+    public String getLowTemp() {
+        return lowTemp;
+    }
+
+    public void setLowTemp(String lowTemp) {
+        this.lowTemp = lowTemp;
     }
 
     public String getErrorMessage() {

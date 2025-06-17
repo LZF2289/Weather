@@ -1,93 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="天气预报"
-        android:textSize="24sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp"/>
-
-    <EditText
-        android:id="@+id/editTextCityName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="输入城市名称"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="16dp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/buttonQuery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="获取天气"
-        android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="天气预报"
+            android:textSize="24sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"/>
 
-    <!-- 加载进度条 -->
-    <ProgressBar
-        android:id="@+id/progressBarLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone"/>
+        <EditText
+            android:id="@+id/editTextCityName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入城市名称"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="16dp"/>
 
-    <TextView
-        android:id="@+id/textViewCityName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="城市: "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
+        <Button
+            android:id="@+id/buttonQuery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取天气"
+            android:layout_marginBottom="16dp"/>
 
-    <TextView
-        android:id="@+id/textViewTemperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="温度: "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
+        <!-- 加载进度条 -->
+        <ProgressBar
+            android:id="@+id/progressBarLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/textViewCondition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="状况: "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
+        <!-- 今日天气信息 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日天气"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
 
-    <TextView
-        android:id="@+id/textViewWindSpeed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="风速: "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
+        <TextView
+            android:id="@+id/textViewCityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="城市: "
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"/>
 
-    <TextView
-        android:id="@+id/textViewHumidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="湿度: "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
+        <TextView
+            android:id="@+id/textViewTemperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度: "
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"/>
 
-    <TextView
-        android:id="@+id/textViewError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"/>
+        <TextView
+            android:id="@+id/textViewCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="状况: "
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textViewWindSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="风速: "
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/textViewHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度: "
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- 天气预报部分 -->
+        <TextView
+            android:id="@+id/textViewForecastTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未来天气预报"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"/>
+
+        <!-- 预报第一天 -->
+        <LinearLayout
+            android:id="@+id/layoutForecastDay1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textViewForecastDay1Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                tools:text="2025-06-14"/>
+
+            <TextView
+                android:id="@+id/textViewForecastDay1Weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                tools:text="状况: 晴"/>
+
+            <TextView
+                android:id="@+id/textViewForecastDay1Temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                tools:text="温度: 20°C ~ 30°C"/>
+
+            <TextView
+                android:id="@+id/textViewForecastDay1Wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                tools:text="风速: 东风 3级"/>
+        </LinearLayout>
+
+        <!-- 预报第二天 -->
+        <LinearLayout
+            android:id="@+id/layoutForecastDay2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textViewForecastDay2Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                tools:text="2025-06-15"/>
+
+            <TextView
+                android:id="@+id/textViewForecastDay2Weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                tools:text="状况: 多云"/>
+
+            <TextView
+                android:id="@+id/textViewForecastDay2Temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                tools:text="温度: 22°C ~ 32°C"/>
+
+            <TextView
+                android:id="@+id/textViewForecastDay2Wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                tools:text="风速: 西北风 4级"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+</ScrollView>
