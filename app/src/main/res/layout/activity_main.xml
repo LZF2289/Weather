@@ -25,9 +25,26 @@
             android:id="@+id/editTextCityName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:hint="输入城市名称"
             android:inputType="textPersonName"
-            android:layout_marginBottom="16dp"/>
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/buttonHistory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="历史记录"
+            android:layout_marginEnd="4dp"/>
+
+        <Button
+            android:id="@+id/buttonSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="设置"
+            android:layout_marginStart="4dp"/>
 
         <Button
             android:id="@+id/buttonQuery"

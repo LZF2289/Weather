@@ -1,5 +1,6 @@
 package com.example.weather;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.LinearLayout;
+
+import com.example.weather.database.WeatherHistoryManager;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -35,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewForecastDay2Weather; // 第二天天气
     private TextView textViewForecastDay2Temp;  // 第二天温度
     private TextView textViewForecastDay2Wind;  // 第二天风速
-
     private WeatherController controller;   // Controller的引用
+    private WeatherHistoryManager historyManager;
+    private Button buttonHistory;
+    private static final int REQUEST_HISTORY = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +76,20 @@ public class MainActivity extends AppCompatActivity {
         // 初始化Controller
         controller = new WeatherController(this);
 
-        // 设置按钮点击监听器
+        //初始化历史记录
+        buttonHistory = findViewById(R.id.buttonHistory);
+        //设置历史记录按钮监听器
+        buttonHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                startActivityForResult(intent, REQUEST_HISTORY);
+            }
+        });
+        historyManager = new WeatherHistoryManager(this);
+        historyManager.open();
+
+        // 设置查询按钮监听器
         buttonQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +148,14 @@ public class MainActivity extends AppCompatActivity {
             textViewWindSpeed.setText("风速: " + data.getWindSpeed());
             textViewHumidity.setText("湿度: " + data.getHumidity());
 
+            if (historyManager != null) {
+                historyManager.createHistory(
+                        data.getCityName(),
+                        data.getTemperature(),
+                        data.getCondition()
+                );
+            }
+
             textViewError.setVisibility(View.GONE); // 隐藏错误信息TextView
         }
     }
@@ -162,6 +188,36 @@ public class MainActivity extends AppCompatActivity {
             textViewForecastDay2Temp.setText("温度: " + day2.getLowTemp() + " ~ " + day2.getHighTemp());
             textViewForecastDay2Wind.setText("风速: " + day2.getWindInfo());
             layoutForecastDay2.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (historyManager != null) {
+            historyManager.open();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (historyManager != null) {
+            historyManager.close();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_HISTORY && resultCode == RESULT_OK && data != null) {
+            String cityName = data.getStringExtra("cityName");
+            if (cityName != null && !cityName.isEmpty()) {
+                // 设置城市名称
+                editTextCityName.setText(cityName);
+                // 自动查询该城市的天气
+                controller.fetchWeatherData(cityName);
+            }
         }
     }
 }
