@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 
 import com.example.weather.database.WeatherHistoryManager;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
@@ -28,17 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     // 预报相关控件
     private TextView textViewForecastTitle; // 预报标题
-    private LinearLayout layoutForecastDay1; // 第一天预报布局
-    private LinearLayout layoutForecastDay2; // 第二天预报布局
-    private TextView textViewForecastDay1Date;  // 第一天日期
-    private TextView textViewForecastDay1Weather; // 第一天天气
-    private TextView textViewForecastDay1Temp;  // 第一天温度
-    private TextView textViewForecastDay1Wind;  // 第一天风速
-    private TextView textViewForecastDay2Date;  // 第二天日期
-    private TextView textViewForecastDay2Weather; // 第二天天气
-    private TextView textViewForecastDay2Temp;  // 第二天温度
-    private TextView textViewForecastDay2Wind;  // 第二天风速
     private WeatherController controller;   // Controller的引用
+    private LinearLayout containerForecast; // 预报容器
     private WeatherHistoryManager historyManager;
     private Button buttonHistory;
     private static final int REQUEST_HISTORY = 100;
@@ -62,22 +55,14 @@ public class MainActivity extends AppCompatActivity {
 
         // 初始化预报UI控件
         textViewForecastTitle = findViewById(R.id.textViewForecastTitle);
-        layoutForecastDay1 = findViewById(R.id.layoutForecastDay1);
-        layoutForecastDay2 = findViewById(R.id.layoutForecastDay2);
-        textViewForecastDay1Date = findViewById(R.id.textViewForecastDay1Date);
-        textViewForecastDay1Weather = findViewById(R.id.textViewForecastDay1Weather);
-        textViewForecastDay1Temp = findViewById(R.id.textViewForecastDay1Temp);
-        textViewForecastDay1Wind = findViewById(R.id.textViewForecastDay1Wind);
-        textViewForecastDay2Date = findViewById(R.id.textViewForecastDay2Date);
-        textViewForecastDay2Weather = findViewById(R.id.textViewForecastDay2Weather);
-        textViewForecastDay2Temp = findViewById(R.id.textViewForecastDay2Temp);
-        textViewForecastDay2Wind = findViewById(R.id.textViewForecastDay2Wind);
+        containerForecast = findViewById(R.id.containerForecast);
 
         // 初始化Controller
         controller = new WeatherController(this);
 
         //初始化历史记录
         buttonHistory = findViewById(R.id.buttonHistory);
+        Button buttonSettings = findViewById(R.id.buttonSettings);
         //设置历史记录按钮监听器
         buttonHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_HISTORY);
             }
         });
+
         historyManager = new WeatherHistoryManager(this);
         historyManager.open();
 
@@ -96,10 +82,9 @@ public class MainActivity extends AppCompatActivity {
                 String cityName = editTextCityName.getText().toString();
                 Log.d(TAG, "查询按钮点击: " + cityName);
 
-                // 隐藏预报视图
+                // 隐藏预报标题和清空容器
                 textViewForecastTitle.setVisibility(View.GONE);
-                layoutForecastDay1.setVisibility(View.GONE);
-                layoutForecastDay2.setVisibility(View.GONE);
+                containerForecast.removeAllViews();
 
                 // 当按钮被点击时，调用Controller的方法获取天气数据
                 controller.fetchWeatherData(cityName);
@@ -159,35 +144,98 @@ public class MainActivity extends AppCompatActivity {
             textViewError.setVisibility(View.GONE); // 隐藏错误信息TextView
         }
     }
+    // 将dp转换为像素
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
+    }
+    private View createForecastDayView(ForecastData.DayForecast day) {
+        // 创建卡片容器
+        LinearLayout dayCardLayout = new LinearLayout(this);
+        dayCardLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        dayCardLayout.setOrientation(LinearLayout.VERTICAL);
+        dayCardLayout.setBackgroundColor(getResources().getColor(android.R.color.darker_gray)); // 使用与原卡片相同的背景色
+        dayCardLayout.setPadding(dpToPx(12), dpToPx(12), dpToPx(12), dpToPx(12));
 
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) dayCardLayout.getLayoutParams();
+        layoutParams.setMargins(0, 0, 0, dpToPx(8));
+        dayCardLayout.setLayoutParams(layoutParams);
+
+        // 添加日期
+        TextView textViewDate = new TextView(this);
+        textViewDate.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        textViewDate.setText(day.getDate());
+        textViewDate.setTextSize(16);
+        textViewDate.setTypeface(null, android.graphics.Typeface.BOLD);
+        textViewDate.setPadding(0, 0, 0, dpToPx(4));
+        dayCardLayout.addView(textViewDate);
+
+        // 添加天气状况
+        TextView textViewWeather = new TextView(this);
+        textViewWeather.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        textViewWeather.setText("状况: " + day.getCondition());
+        textViewWeather.setTextSize(16);
+        textViewWeather.setPadding(0, 0, 0, dpToPx(4));
+        dayCardLayout.addView(textViewWeather);
+
+        // 添加温度
+        TextView textViewTemp = new TextView(this);
+        textViewTemp.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        textViewTemp.setText("温度: " + day.getLowTemp() + " ~ " + day.getHighTemp());
+        textViewTemp.setTextSize(16);
+        textViewTemp.setPadding(0, 0, 0, dpToPx(4));
+        dayCardLayout.addView(textViewTemp);
+
+        // 添加风速
+        TextView textViewWind = new TextView(this);
+        textViewWind.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        textViewWind.setText("风速: " + day.getWindInfo());
+        textViewWind.setTextSize(16);
+        dayCardLayout.addView(textViewWind);
+
+        return dayCardLayout;
+    }
     // 更新多天天气预报信息
     public void updateForecastInfo(ForecastData forecastData) {
-        if (forecastData.isError() || forecastData.getDailyForecasts().size() < 2) {
-            // 如果获取预报失败或数据不足，不显示预报卡片
+        if (forecastData.isError() || forecastData.getDailyForecasts().isEmpty()) {
+            // 如果获取预报失败或数据为空，不显示预报
+            textViewForecastTitle.setVisibility(View.GONE);
+            containerForecast.removeAllViews();
             return;
         }
 
         // 显示预报标题
         textViewForecastTitle.setVisibility(View.VISIBLE);
 
-        // 显示未来两天的预报（跳过今天的预报，因为今天的已经在今日天气中显示了）
-        if (forecastData.getDailyForecasts().size() > 1) {
-            ForecastData.DayForecast day1 = forecastData.getDailyForecasts().get(1); // 明天
-            textViewForecastDay1Date.setText(day1.getDate());
-            textViewForecastDay1Weather.setText("状况: " + day1.getCondition());
-            textViewForecastDay1Temp.setText("温度: " + day1.getLowTemp() + " ~ " + day1.getHighTemp());
-            textViewForecastDay1Wind.setText("风速: " + day1.getWindInfo());
-            layoutForecastDay1.setVisibility(View.VISIBLE);
-        }
+        // 清空当前预报容器
+        containerForecast.removeAllViews();
 
-        if (forecastData.getDailyForecasts().size() > 2) {
-            // 如果有第3天数据
-            ForecastData.DayForecast day2 = forecastData.getDailyForecasts().get(2); // 后天
-            textViewForecastDay2Date.setText(day2.getDate());
-            textViewForecastDay2Weather.setText("状况: " + day2.getCondition());
-            textViewForecastDay2Temp.setText("温度: " + day2.getLowTemp() + " ~ " + day2.getHighTemp());
-            textViewForecastDay2Wind.setText("风速: " + day2.getWindInfo());
-            layoutForecastDay2.setVisibility(View.VISIBLE);
+        // 获取天气预报数据
+        List<ForecastData.DayForecast> forecasts = forecastData.getDailyForecasts();
+
+        // 从第二天开始显示，因为第一天在今日天气中已经显示了
+        int startIndex = 1;
+
+        // 遍历预报数据，为每天创建一个预报卡片
+        for (int i = startIndex; i < forecasts.size(); i++) {
+            ForecastData.DayForecast dayForecast = forecasts.get(i);
+            View forecastDayView = createForecastDayView(dayForecast);
+            containerForecast.addView(forecastDayView);
         }
     }
 

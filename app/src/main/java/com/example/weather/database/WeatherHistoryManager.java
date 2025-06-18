@@ -59,6 +59,13 @@ public class WeatherHistoryManager {
      * 创建新的历史记录
      */
     public WeatherHistory createHistory(String city, String temp, String condition) {
+        // 删除相同城市的旧记录
+        database.delete(
+                WeatherDbHelper.TABLE_HISTORY,
+                WeatherDbHelper.COLUMN_CITY + " = ?",
+                new String[] { city });
+
+        // 创建新记录的值
         ContentValues values = new ContentValues();
         values.put(WeatherDbHelper.COLUMN_CITY, city);
         values.put(WeatherDbHelper.COLUMN_TEMP, temp);
@@ -69,9 +76,9 @@ public class WeatherHistoryManager {
         String currentTime = sdf.format(new Date());
         values.put(WeatherDbHelper.COLUMN_QUERY_TIME, currentTime);
 
-        // 插入数据到数据库
+        // 插入新记录
         long insertId = database.insert(WeatherDbHelper.TABLE_HISTORY, null, values);
-        Log.d(TAG, "创建历史记录, ID: " + insertId);
+        Log.d(TAG, "创建/更新历史记录, 城市: " + city + ", ID: " + insertId);
 
         // 获取插入的记录
         Cursor cursor = database.query(

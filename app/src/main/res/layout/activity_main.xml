@@ -28,23 +28,31 @@
             android:layout_marginBottom="16dp"
             android:hint="输入城市名称"
             android:inputType="textPersonName"
-            android:minHeight="48dp" />
+            android:minHeight="24dp"
+            tools:ignore="TouchTargetSizeCheck" />
 
-        <Button
-            android:id="@+id/buttonHistory"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="历史记录"
-            android:layout_marginEnd="4dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/buttonSettings"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="设置"
-            android:layout_marginStart="4dp"/>
+            <Button
+                android:id="@+id/buttonHistory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="历史记录"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/buttonSettings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="设置"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/buttonQuery"
@@ -123,92 +131,12 @@
             android:layout_marginBottom="8dp"
             android:visibility="gone"/>
 
-        <!-- 预报第一天 -->
+        <!-- 预报容器 - 将动态添加预报天卡片 -->
         <LinearLayout
-            android:id="@+id/layoutForecastDay1"
+            android:id="@+id/containerForecast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:color/darker_gray"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/textViewForecastDay1Date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginBottom="4dp"
-                tools:text="2025-06-14"/>
-
-            <TextView
-                android:id="@+id/textViewForecastDay1Weather"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginBottom="4dp"
-                tools:text="状况: 晴"/>
-
-            <TextView
-                android:id="@+id/textViewForecastDay1Temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginBottom="4dp"
-                tools:text="温度: 20°C ~ 30°C"/>
-
-            <TextView
-                android:id="@+id/textViewForecastDay1Wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                tools:text="风速: 东风 3级"/>
-        </LinearLayout>
-
-        <!-- 预报第二天 -->
-        <LinearLayout
-            android:id="@+id/layoutForecastDay2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:color/darker_gray"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/textViewForecastDay2Date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginBottom="4dp"
-                tools:text="2025-06-15"/>
-
-            <TextView
-                android:id="@+id/textViewForecastDay2Weather"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginBottom="4dp"
-                tools:text="状况: 多云"/>
-
-            <TextView
-                android:id="@+id/textViewForecastDay2Temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginBottom="4dp"
-                tools:text="温度: 22°C ~ 32°C"/>
-
-            <TextView
-                android:id="@+id/textViewForecastDay2Wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                tools:text="风速: 西北风 4级"/>
+            android:orientation="vertical">
         </LinearLayout>
 
         <TextView
