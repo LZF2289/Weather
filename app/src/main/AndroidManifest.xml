@@ -33,7 +33,14 @@
         <activity
             android:name=".HistoryActivity"
             android:exported="false"
-            android:label="历史记录" />
+            android:label="历史记录"
+            />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="设置"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

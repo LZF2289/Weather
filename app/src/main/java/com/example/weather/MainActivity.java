@@ -1,6 +1,8 @@
 package com.example.weather;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // 初始化Controller
         controller = new WeatherController(this);
 
-        //初始化历史记录
+        //初始化历史记录和设置
         buttonHistory = findViewById(R.id.buttonHistory);
         Button buttonSettings = findViewById(R.id.buttonSettings);
         //设置历史记录按钮监听器
@@ -71,7 +73,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_HISTORY);
             }
         });
-
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
         historyManager = new WeatherHistoryManager(this);
         historyManager.open();
 
@@ -91,8 +99,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         APITest.testAPI();
+        loadDefaultCity();
     }
 
+    private void loadDefaultCity() {
+        // 仅当输入框为空时才加载默认城市
+        if (editTextCityName.getText().toString().trim().isEmpty()) {
+            SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
+            String defaultCity = settings.getString(SettingsActivity.KEY_DEFAULT_CITY, "");
+
+            if (!defaultCity.isEmpty()) {
+                editTextCityName.setText(defaultCity);
+                controller.fetchWeatherData(defaultCity);
+            }
+        }
+    }
     // 显示或隐藏加载中状态
     public void showLoading(boolean isLoading) {
         if (isLoading) {
