@@ -231,8 +231,12 @@ public class MainActivity extends AppCompatActivity {
 
         return dayCardLayout;
     }
-    // 更新多天天气预报信息
     public void updateForecastInfo(ForecastData forecastData) {
+        updateForecastInfo(forecastData, false); // 默认使用摄氏度
+    }
+    // 更新多天天气预报信息
+    public void updateForecastInfo(ForecastData forecastData, boolean useFahrenheit) {
+
         if (forecastData.isError() || forecastData.getDailyForecasts().isEmpty()) {
             // 如果获取预报失败或数据为空，不显示预报
             textViewForecastTitle.setVisibility(View.GONE);

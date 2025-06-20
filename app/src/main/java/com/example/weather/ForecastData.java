@@ -93,7 +93,13 @@ public class ForecastData {
         public String getHumidity() {
             return humidity;
         }
+        public void setHighTemp(String highTemp) {
+            this.highTemp = highTemp;
+        }
 
+        public void setLowTemp(String lowTemp) {
+            this.lowTemp = lowTemp;
+        }
         public String getWindInfo() {
             if (windDirection != null && !windDirection.isEmpty()) {
                 if (windScale != null && !windScale.isEmpty()) {

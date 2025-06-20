@@ -32,6 +32,34 @@
         android:inputType="text"
         android:layout_marginBottom="16dp"/>
 
+    <!-- 温度单位设置 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="温度单位"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroupTempUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:id="@+id/radioButtonCelsius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="摄氏度 (°C)"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonFahrenheit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="华氏度 (°F)"/>
+    </RadioGroup>
+
     <!-- 分隔线 -->
     <View
         android:layout_width="match_parent"
