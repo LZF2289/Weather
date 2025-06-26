@@ -19,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 重要：这是HistoryActivity.java中引用的RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="0dp"
@@ -32,7 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHistoryTitle" />
 
-    <!-- 重要：这是HistoryActivity.java中引用的"无历史记录"提示 -->
     <TextView
         android:id="@+id/textViewNoHistory"
         android:layout_width="0dp"
@@ -46,14 +44,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 重要：这是HistoryActivity.java中引用的清空按钮 -->
-    <Button
-        android:id="@+id/buttonClearHistory"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabClearHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="清空历史"
         android:layout_margin="16dp"
+        android:contentDescription="清除历史"
+        app:srcCompat="@android:drawable/ic_menu_delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>

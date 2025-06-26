@@ -74,7 +74,12 @@ public class WeatherController {
             }
         });
     }
-
+    public String convertTemperatureIfNeeded(String temperature) {
+        if (shouldUseFahrenheit() && temperature != null && !temperature.isEmpty()) {
+            return celsiusToFahrenheit(temperature);
+        }
+        return temperature;
+    }
     // 检查是否需要转换温度单位并进行转换
     private void convertTemperatureIfNeeded(WeatherData data) {
         if (data == null || data.isError()) {

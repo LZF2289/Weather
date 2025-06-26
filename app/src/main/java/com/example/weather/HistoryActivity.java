@@ -33,6 +33,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.initTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
