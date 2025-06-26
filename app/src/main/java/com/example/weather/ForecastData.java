@@ -54,9 +54,10 @@ public class ForecastData {
         private String windDirection;
         private String windScale;
         private String humidity;
+        private String code;
 
         public DayForecast(String date, String highTemp, String lowTemp, String condition,
-                           String windDirection, String windScale, String humidity) {
+                           String windDirection, String windScale, String humidity, String code) {
             this.date = date;
             this.highTemp = highTemp;
             this.lowTemp = lowTemp;
@@ -64,6 +65,7 @@ public class ForecastData {
             this.windDirection = windDirection;
             this.windScale = windScale;
             this.humidity = humidity;
+            this.code = code;
         }
 
         public String getDate() {
@@ -93,6 +95,15 @@ public class ForecastData {
         public String getHumidity() {
             return humidity;
         }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
         public void setHighTemp(String highTemp) {
             this.highTemp = highTemp;
         }
@@ -100,6 +111,7 @@ public class ForecastData {
         public void setLowTemp(String lowTemp) {
             this.lowTemp = lowTemp;
         }
+
         public String getWindInfo() {
             if (windDirection != null && !windDirection.isEmpty()) {
                 if (windScale != null && !windScale.isEmpty()) {

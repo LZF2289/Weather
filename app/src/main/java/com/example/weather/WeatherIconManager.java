@@ -40,16 +40,8 @@ public class WeatherIconManager {
         String iconSize = "@2x"; // 使用高分辨率图标
 
         try {
-            // 尝试从资源中加载图标（首先尝试drawable资源）
-            int resourceId = context.getResources().getIdentifier(
-                    "weather_" + code, "drawable", context.getPackageName());
-
-            if (resourceId != 0) {
-                return AppCompatResources.getDrawable(context, resourceId);
-            }
-
-            // 如果drawable中没有，尝试从assets加载
-            String iconPath = "assets/Pic/" + iconFolder + "/" + code + iconSize + ".png";
+            // 从assets加载
+            String iconPath = "Pic/" + iconFolder + "/" + code + iconSize + ".png";
 
             InputStream is = context.getAssets().open(iconPath);
             Drawable drawable = Drawable.createFromStream(is, null);

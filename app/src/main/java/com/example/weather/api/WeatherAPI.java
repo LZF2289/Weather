@@ -1,5 +1,6 @@
 package com.example.weather.api;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.util.Log;
 import com.example.weather.ForecastData;
 import com.example.weather.WeatherData;
 
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -121,7 +123,8 @@ public class WeatherAPI {
                                 today.getLow() + "°C",   // 添加最低温度
                                 today.getTextDay(),
                                 windInfo,
-                                humidity
+                                humidity,
+                                today.getCodeDay()
                         );
 
                         Log.d(TAG, "获取天气数据成功: " + location.getName() + ", " + today.getTextDay());
@@ -208,7 +211,8 @@ public class WeatherAPI {
                                     day.getTextDay(),
                                     day.getWindDirection(),
                                     day.getWindScale(),
-                                    day.getHumidity() + "%"
+                                    day.getHumidity() + "%",
+                                    day.getCodeDay()
                             );
                             forecastData.addDayForecast(dayForecast);
                         }

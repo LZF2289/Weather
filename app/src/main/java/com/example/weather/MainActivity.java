@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,14 +23,13 @@ import androidx.cardview.widget.CardView;
 import com.example.weather.database.WeatherHistoryManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    private TextInputEditText editTextCityName;   // 城市名称输入框
+    private EditText editTextCityName;   // 城市名称输入框
     private MaterialButton buttonQuery;           // 查询按钮
     private TextView textViewCityName;            // 显示城市名称的TextView
     private TextView textViewTemperature;         // 显示温度的TextView
@@ -221,8 +221,7 @@ public class MainActivity extends AppCompatActivity {
             textViewHumidity.setText("湿度: " + data.getHumidity());
 
             // 设置天气图标
-            String weatherCode = WeatherIconManager.getWeatherCodeFromCondition(data.getCondition());
-            imageViewWeatherIcon.setImageDrawable(WeatherIconManager.getWeatherIcon(this, weatherCode));
+            imageViewWeatherIcon.setImageDrawable(WeatherIconManager.getWeatherIcon(this, data.getCode()));
 
             // 显示天气卡片并添加动画
             weatherCard.setVisibility(View.VISIBLE);
@@ -301,8 +300,7 @@ public class MainActivity extends AppCompatActivity {
                 textViewWind.setText(dayForecast.getWindInfo());
 
                 // 设置图标
-                String weatherCode = WeatherIconManager.getWeatherCodeFromCondition(dayForecast.getCondition());
-                imageViewIcon.setImageDrawable(WeatherIconManager.getWeatherIcon(MainActivity.this, weatherCode));
+                imageViewIcon.setImageDrawable(WeatherIconManager.getWeatherIcon(MainActivity.this, dayForecast.getCode()));
 
                 // 添加到容器并设置动画
                 containerForecast.addView(forecastView);

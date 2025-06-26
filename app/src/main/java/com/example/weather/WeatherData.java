@@ -9,13 +9,14 @@ public class WeatherData {
     private String lowTemp; // 新增最低温度
     private boolean error;
     private String errorMessage;
+    private String code;
 
     public WeatherData() {
         // 默认构造函数
     }
 
     // 成功获取数据时的构造函数
-    public WeatherData(String cityName, String highTemp, String lowTemp, String condition, String windSpeed, String humidity) {
+    public WeatherData(String cityName, String highTemp, String lowTemp, String condition, String windSpeed, String humidity, String code) {
         this.cityName = cityName;
         this.temperature = highTemp;
         this.lowTemp = lowTemp;
@@ -23,6 +24,7 @@ public class WeatherData {
         this.windSpeed = windSpeed;
         this.humidity = humidity;
         this.error = false;
+        this.code = code;
     }
 
     // 发生错误时的构造函数
@@ -86,6 +88,14 @@ public class WeatherData {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     // 判断是否是错误数据
