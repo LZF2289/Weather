@@ -35,7 +35,6 @@
                 android:hint="输入城市名称"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"
                 android:padding="8dp"/>
 
             <LinearLayout

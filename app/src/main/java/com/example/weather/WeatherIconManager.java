@@ -19,11 +19,12 @@ public class WeatherIconManager {
      * @return 天气图标Drawable，如果无法加载则返回null
      */
     public static Drawable getWeatherIcon(Context context, String weatherCode) {
+        Log.d(TAG, "尝试加载天气图标，代码：" + weatherCode);
         if (weatherCode == null || weatherCode.isEmpty()) {
+            Log.d(TAG, "天气代码为空，使用默认图标");
             return AppCompatResources.getDrawable(context, android.R.drawable.ic_menu_compass);
         }
-
-        // 尝试将天气代码转换为整数
+// 尝试将天气代码转换为整数
         int code;
         try {
             code = Integer.parseInt(weatherCode);
@@ -38,23 +39,43 @@ public class WeatherIconManager {
 
         String iconFolder = useDarkTheme ? "white" : "black";
         String iconSize = "@2x"; // 使用高分辨率图标
+        String iconPath = "Pic/" + iconFolder + "/" + code + iconSize + ".png";
+
+        Log.d(TAG, "尝试加载图标路径: " + iconPath);
 
         try {
-            // 从assets加载
-            String iconPath = "Pic/" + iconFolder + "/" + code + iconSize + ".png";
+            // 尝试列出assets/Pic目录中的文件
+            try {
+                String[] files = context.getAssets().list("Pic");
+                if (files != null) {
+                    Log.d(TAG, "Assets/Pic目录中的文件: " + String.join(", ", files));
 
+                    // 尝试列出主题文件夹中的文件
+                    String[] themeFiles = context.getAssets().list("Pic/" + iconFolder);
+                    if (themeFiles != null) {
+                        Log.d(TAG, "Assets/Pic/" + iconFolder + "目录中的文件: " + String.join(", ", themeFiles));
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "无法列出assets目录文件", e);
+            }
+
+            // 从assets加载
             InputStream is = context.getAssets().open(iconPath);
             Drawable drawable = Drawable.createFromStream(is, null);
             is.close();
 
             if (drawable != null) {
+                Log.d(TAG, "成功加载天气图标: " + iconPath);
                 return drawable;
+            } else {
+                Log.e(TAG, "加载图标返回null: " + iconPath);
             }
         } catch (Exception e) {
-            Log.e(TAG, "无法加载天气图标: " + code, e);
+            Log.e(TAG, "加载天气图标失败: " + iconPath, e);
         }
 
-        // 如果无法加载，返回一个默认图标
+        Log.d(TAG, "使用默认图标");
         return AppCompatResources.getDrawable(context, android.R.drawable.ic_menu_compass);
     }
 
