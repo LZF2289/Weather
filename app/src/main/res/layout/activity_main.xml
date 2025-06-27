@@ -67,7 +67,6 @@
                 android:text="获取天气"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- 加载进度条 -->
             <ProgressBar
                 android:id="@+id/progressBarLoading"
                 android:layout_width="wrap_content"
@@ -76,7 +75,6 @@
                 android:layout_marginBottom="24dp"
                 android:visibility="gone"/>
 
-            <!-- 天气信息容器 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/weatherCard"
 
@@ -92,7 +90,6 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- 今日天气标题 -->
                     <TextView
 
                         android:layout_width="wrap_content"
@@ -163,7 +160,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 天气预报部分 -->
             <TextView
                 android:id="@+id/textViewForecastTitle"
                 android:layout_width="wrap_content"
@@ -175,7 +171,6 @@
                 android:layout_marginBottom="8dp"
                 android:visibility="gone"/>
 
-            <!-- 预报容器 - 将动态添加预报天卡片 -->
             <LinearLayout
                 android:id="@+id/containerForecast"
                 android:layout_width="match_parent"
@@ -197,7 +192,6 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- 悬浮刷新按钮 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabRefresh"
         android:layout_width="wrap_content"

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // 初始化主题，必须在setContentView之前调用
+        // 初始化主题
         ThemeManager.initTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         progressBarLoading = findViewById(R.id.progressBarLoading);
         textViewError = findViewById(R.id.textViewError);
 
-        // 初始化天气卡片
+        // 天气卡片
         weatherCard = findViewById(R.id.weatherCard);
         textViewCityName = weatherCard.findViewById(R.id.textViewCityName);
         textViewTemperature = weatherCard.findViewById(R.id.textViewTemperature);
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         textViewHumidity = weatherCard.findViewById(R.id.textViewHumidity);
         imageViewWeatherIcon = weatherCard.findViewById(R.id.imageViewWeatherIcon);
 
-        // 初始化预报UI控件
+        // 预报控件
         textViewForecastTitle = findViewById(R.id.textViewForecastTitle);
         containerForecast = findViewById(R.id.containerForecast);
         textViewTitle = findViewById(R.id.textViewTitle);
@@ -146,18 +146,18 @@ public class MainActivity extends AppCompatActivity {
 
     // 刷新天气数据
     private void refreshWeatherData(String cityName) {
-        // 当按钮被点击时，隐藏卡片
+        // 隐藏卡片
         if (weatherCard.getVisibility() == View.VISIBLE) {
             weatherCard.startAnimation(fadeOut);
             weatherCard.setVisibility(View.GONE);
         }
 
-        // 当按钮被点击时，调用Controller的方法获取天气数据
+        // 调用Controller的方法获取天气数据
         controller.fetchWeatherData(cityName);
     }
 
+    // 加载默认城市
     private void loadDefaultCity() {
-        // 仅当输入框为空时才加载默认城市
         if (editTextCityName.getText().toString().trim().isEmpty()) {
             SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
             String defaultCity = settings.getString(SettingsActivity.KEY_DEFAULT_CITY, "");
@@ -182,10 +182,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Controller调用此方法来更新今日天气View
+    // 更新今日天气信息
+    @SuppressLint("SetTextI18n")
     public void updateWeatherInfo(WeatherData data) {
         if (data.isError()) {
-            // 如果是错误数据，显示错误信息
+            // 显示错误信息
             Log.e(TAG, "显示错误信息: " + data.getErrorMessage());
 
             // 隐藏天气卡片
@@ -198,19 +199,17 @@ public class MainActivity extends AppCompatActivity {
             textViewError.setText(data.getErrorMessage());
             textViewError.setVisibility(View.VISIBLE);
             textViewError.startAnimation(fadeIn);
-
         } else {
-            // 如果数据正常，显示天气信息
+            // 显示天气信息
             Log.d(TAG, "显示天气信息: " + data.getCityName());
 
-            // 隐藏可能显示的错误信息
             textViewError.setVisibility(View.GONE);
 
             // 设置城市名和天气状况
             textViewCityName.setText(data.getCityName());
             textViewCondition.setText(data.getCondition());
 
-            // 如果有低温数据，则显示温度范围
+            // 设置温度显示
             if (data.getLowTemp() != null && !data.getLowTemp().isEmpty()) {
                 textViewTemperature.setText(data.getLowTemp() + " ~ " + data.getTemperature());
             } else {
@@ -223,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
             // 设置天气图标
             imageViewWeatherIcon.setImageDrawable(WeatherIconManager.getWeatherIcon(this, data.getCode()));
 
-            // 显示天气卡片并添加动画
+            // 显示天气卡片
             weatherCard.setVisibility(View.VISIBLE);
             weatherCard.startAnimation(slideUp);
 
@@ -256,13 +255,13 @@ public class MainActivity extends AppCompatActivity {
         textViewForecastTitle.setVisibility(View.VISIBLE);
         textViewForecastTitle.startAnimation(fadeIn);
 
-        // 清空当前预报容器
+        // 清空预报容器
         containerForecast.removeAllViews();
 
         // 获取天气预报数据
         List<ForecastData.DayForecast> forecasts = forecastData.getDailyForecasts();
 
-        // 从第二天开始显示，因为第一天在今日天气中已经显示了
+        // 从第二天开始显示
         int startIndex = 1;
 
         // 遍历预报数据，为每天创建一个预报卡片

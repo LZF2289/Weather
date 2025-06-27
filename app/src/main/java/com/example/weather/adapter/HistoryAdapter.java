@@ -15,10 +15,8 @@ import com.example.weather.database.WeatherHistory;
 
 import java.util.List;
 
-/**
- * 历史记录适配器
- * 用于绑定历史记录数据到RecyclerView
- */
+//历史记录适配器，用于绑定历史记录数据到RecyclerView
+
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     private List<WeatherHistory> historyList;
     private Context context;
@@ -29,24 +27,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         void onItemClick(WeatherHistory history);
     }
 
-    /**
-     * 构造函数
-     */
     public HistoryAdapter(Context context, List<WeatherHistory> historyList) {
         this.context = context;
         this.historyList = historyList;
     }
 
-    /**
-     * 设置点击事件监听器
-     */
+    // 设置点击事件监听器
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    /**
-     * 更新数据
-     */
+    // 更新数据
     public void updateData(List<WeatherHistory> newHistoryList) {
         this.historyList = newHistoryList;
         notifyDataSetChanged();
@@ -55,7 +46,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // 创建ViewHolder
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_history, parent, false);
         return new ViewHolder(view);
@@ -81,9 +71,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return historyList.size();
     }
 
-    /**
-     * ViewHolder类，用于保存视图引用
-     */
+
+//      ViewHolder类，用于保存视图引用
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewHistoryCityName;
         public TextView textViewHistoryTemp;

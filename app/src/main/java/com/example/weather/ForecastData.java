@@ -45,7 +45,7 @@ public class ForecastData {
         return errorMessage;
     }
 
-    // 内部类：单日预报
+    // 单日预报
     public static class DayForecast {
         private String date;
         private String highTemp;

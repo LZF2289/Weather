@@ -5,7 +5,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface WeatherService {
-    // 原来的实时天气API
+    // 实时天气API
     @GET("v3/weather/now.json")
     Call<WeatherResponse> getWeatherByCity(
             @Query("key") String key,
@@ -14,7 +14,7 @@ public interface WeatherService {
             @Query("unit") String unit
     );
 
-    // 新增的天气预报API
+    // 天气预报API
     @GET("v3/weather/daily.json")
     Call<DailyWeatherResponse> getDailyWeatherByCity(
             @Query("key") String key,

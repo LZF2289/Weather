@@ -31,33 +31,29 @@ public class WeatherHistoryManager {
             WeatherDbHelper.COLUMN_QUERY_TIME
     };
 
-    /**
-     * 构造函数，初始化数据库辅助类
-     */
+
+//     构造函数，初始化数据库辅助类
     public WeatherHistoryManager(Context context) {
         dbHelper = new WeatherDbHelper(context);
         Log.d(TAG, "天气历史数据管理类已创建");
     }
 
-    /**
-     * 打开数据库连接
-     */
+
+//      打开数据库连接
+
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
         Log.d(TAG, "数据库已打开");
     }
 
-    /**
-     * 关闭数据库连接
-     */
+//    关闭数据库连接
+
     public void close() {
         dbHelper.close();
         Log.d(TAG, "数据库已关闭");
     }
 
-    /**
-     * 创建新的历史记录
-     */
+//    创建新的历史记录
     public WeatherHistory createHistory(String city, String temp, String condition) {
         // 删除相同城市的旧记录
         database.delete(
@@ -93,9 +89,7 @@ public class WeatherHistoryManager {
         return newHistory;
     }
 
-    /**
-     * 删除历史记录
-     */
+   // 删除历史记录
     public void deleteHistory(WeatherHistory history) {
         long id = history.getId();
         database.delete(
@@ -105,17 +99,13 @@ public class WeatherHistoryManager {
         Log.d(TAG, "删除历史记录, ID: " + id);
     }
 
-    /**
-     * 清空所有历史记录
-     */
+    //清空所有历史记录
     public void clearAllHistory() {
         database.delete(WeatherDbHelper.TABLE_HISTORY, null, null);
         Log.d(TAG, "清空所有历史记录");
     }
 
-    /**
-     * 获取所有历史记录
-     */
+    // 获取所有历史记录
     public List<WeatherHistory> getAllHistories() {
         List<WeatherHistory> histories = new ArrayList<>();
 
@@ -139,9 +129,8 @@ public class WeatherHistoryManager {
         return histories;
     }
 
-    /**
-     * 将Cursor转换为WeatherHistory对象
-     */
+    //将Cursor转换为WeatherHistory对象
+
     private WeatherHistory cursorToHistory(Cursor cursor) {
         WeatherHistory history = new WeatherHistory();
         history.setId(cursor.getLong(0));

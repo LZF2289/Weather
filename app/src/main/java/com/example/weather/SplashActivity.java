@@ -19,10 +19,10 @@ public class SplashActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                // 创建一个意图 (Intent) 以启动 MainActivity
+                // 创建一个Intent以启动 MainActivity
                 Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                 SplashActivity.this.startActivity(mainIntent);
-                // 关闭 SplashActivity，这样用户按返回键时不会回到启动界面
+                // 关闭 SplashActivity
                 SplashActivity.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);

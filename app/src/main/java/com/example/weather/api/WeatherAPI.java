@@ -1,14 +1,14 @@
 package com.example.weather.api;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.weather.ForecastData;
 import com.example.weather.WeatherData;
 
-import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -61,9 +61,8 @@ public class WeatherAPI {
     }
 
     public void getWeatherByCityName(String cityName, final WeatherCallback callback) {
-        Log.d(TAG, "开始获取天气数据，城市: " + cityName);
+        Log.d(TAG, "获取天气数据: " + cityName);
 
-        // 使用天气预报API获取第一天的数据
         Call<DailyWeatherResponse> call = weatherService.getDailyWeatherByCity(
                 API_KEY,      // 私钥
                 cityName,     // 城市名称
@@ -120,7 +119,7 @@ public class WeatherAPI {
                         final WeatherData weatherData = new WeatherData(
                                 location.getName(),
                                 today.getHigh() + "°C",
-                                today.getLow() + "°C",   // 添加最低温度
+                                today.getLow() + "°C",
                                 today.getTextDay(),
                                 windInfo,
                                 humidity,
@@ -137,14 +136,14 @@ public class WeatherAPI {
                         mainHandler.post(() -> callback.onFailure(errorMsg));
                     }
                 } else {
-                    // 请求失败，处理错误
+                    // 请求失败处理
                     String errorMsg = "API请求失败: " + response.code();
                     try {
                         if (response.errorBody() != null) {
                             errorMsg += " - " + response.errorBody().string();
                         }
                     } catch (Exception e) {
-                        // 忽略错误体解析异常
+                        Log.e(TAG, "请求失败");
                     }
 
                     Log.e(TAG, errorMsg);
@@ -162,11 +161,10 @@ public class WeatherAPI {
         });
     }
 
-    // 新增方法：获取多天天气预报
+    // 获取多天天气预报
     public void getWeatherForecast(String cityName, final ForecastCallback callback) {
-        Log.d(TAG, "开始获取多天天气预报，城市: " + cityName);
+        Log.d(TAG, "获取天气预报: " + cityName);
 
-        // 使用天气预报API获取3天的数据
         Call<DailyWeatherResponse> call = weatherService.getDailyWeatherByCity(
                 API_KEY,      // 私钥
                 cityName,     // 城市名称
@@ -199,23 +197,7 @@ public class WeatherAPI {
                         }
 
                         // 创建预报数据对象
-                        final ForecastData forecastData = new ForecastData();
-                        forecastData.setCityName(location.getName());
-
-                        // 添加每天的预报
-                        for (DailyWeatherResponse.Daily day : result.getDaily()) {
-                            ForecastData.DayForecast dayForecast = new ForecastData.DayForecast(
-                                    day.getDate(),
-                                    day.getHigh() + "°C",
-                                    day.getLow() + "°C",
-                                    day.getTextDay(),
-                                    day.getWindDirection(),
-                                    day.getWindScale(),
-                                    day.getHumidity() + "%",
-                                    day.getCodeDay()
-                            );
-                            forecastData.addDayForecast(dayForecast);
-                        }
+                        final ForecastData forecastData = getForecastData(location, result);
 
                         Log.d(TAG, "获取天气预报成功: " + location.getName() + ", 共 " + result.getDaily().size() + " 天");
                         // 在主线程更新UI
@@ -227,7 +209,7 @@ public class WeatherAPI {
                         mainHandler.post(() -> callback.onFailure(errorMsg));
                     }
                 } else {
-                    // 请求失败，处理错误
+                    // 请求失败处理
                     String errorMsg = "API请求失败: " + response.code();
                     try {
                         if (response.errorBody() != null) {
@@ -241,6 +223,28 @@ public class WeatherAPI {
                     final String finalErrorMsg = errorMsg;
                     mainHandler.post(() -> callback.onFailure(finalErrorMsg));
                 }
+            }
+
+            @NonNull
+            private ForecastData getForecastData(DailyWeatherResponse.Location location, DailyWeatherResponse.Result result) {
+                final ForecastData forecastData = new ForecastData();
+                forecastData.setCityName(location.getName());
+
+                // 添加每天的预报
+                for (DailyWeatherResponse.Daily day : result.getDaily()) {
+                    ForecastData.DayForecast dayForecast = new ForecastData.DayForecast(
+                            day.getDate(),
+                            day.getHigh() + "°C",
+                            day.getLow() + "°C",
+                            day.getTextDay(),
+                            day.getWindDirection(),
+                            day.getWindScale(),
+                            day.getHumidity() + "%",
+                            day.getCodeDay()
+                    );
+                    forecastData.addDayForecast(dayForecast);
+                }
+                return forecastData;
             }
 
             @Override

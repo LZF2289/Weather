@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 public class ThemeManager {
 
-    /**
-     * 初始化应用主题，应在Application或主Activity的onCreate中调用
-     * @param context 上下文
-     */
+    //初始化应用主题
+
     public static void initTheme(Context context) {
         SharedPreferences settings = context.getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
         int themeMode = settings.getInt(SettingsActivity.KEY_THEME_MODE, SettingsActivity.THEME_SYSTEM);

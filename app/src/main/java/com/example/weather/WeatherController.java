@@ -8,26 +8,25 @@ import com.example.weather.api.WeatherAPI;
 public class WeatherController {
     private static final String TAG = "WeatherController";
 
-    private MainActivity view; // 持有View的引用，用于更新UI
+    private MainActivity view; // 更新UI
     private WeatherAPI weatherAPI; // API引用
 
     public WeatherController(MainActivity view) {
         this.view = view;
-        this.weatherAPI = new WeatherAPI(); // 初始化API
+        this.weatherAPI = new WeatherAPI();
     }
 
     public void fetchWeatherData(String cityName) {
         if (cityName == null || cityName.trim().isEmpty()) {
-            // 如果城市名为空，则创建一个错误数据对象
             WeatherData errorData = new WeatherData("请输入城市名称");
-            view.updateWeatherInfo(errorData); // 通知View更新UI
+            view.updateWeatherInfo(errorData);
             return;
         }
 
-        Log.d(TAG, "开始获取天气数据: " + cityName);
-        view.showLoading(true); // 显示加载中状态
+        Log.d(TAG, "获取天气数据: " + cityName);
+        view.showLoading(true);
 
-        // 调用API获取今日天气数据
+        // 获取今日天气数据
         weatherAPI.getWeatherByCityName(cityName, new WeatherAPI.WeatherCallback() {
             @Override
             public void onSuccess(WeatherData data) {
@@ -35,19 +34,18 @@ public class WeatherController {
 
                 // 根据设置转换温度单位
                 convertTemperatureIfNeeded(data);
-
-                view.updateWeatherInfo(data); // 更新今日天气UI
-
-                // 然后获取天气预报
+                // 更新今日天气UI
+                view.updateWeatherInfo(data);
+                // 获取天气预报
                 fetchForecastData(cityName);
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 Log.e(TAG, "获取今日天气数据失败: " + errorMessage);
-                view.showLoading(false); // 隐藏加载中状态
+                view.showLoading(false);
                 WeatherData errorData = new WeatherData(errorMessage);
-                view.updateWeatherInfo(errorData); // 通知View更新UI
+                view.updateWeatherInfo(errorData);
             }
         });
     }
@@ -61,40 +59,39 @@ public class WeatherController {
 
                 // 根据设置转换预报中的温度单位
                 convertForecastTemperaturesIfNeeded(forecastData);
-
-                view.showLoading(false); // 隐藏加载中状态
-                view.updateForecastInfo(forecastData); // 更新多天天气预报UI
+                view.showLoading(false);
+                view.updateForecastInfo(forecastData);
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 Log.e(TAG, "获取多天天气预报失败: " + errorMessage);
-                view.showLoading(false); // 隐藏加载中状态
-                // 这里我们只在日志中输出错误，不影响今日天气的显示
+                view.showLoading(false);
             }
         });
     }
+    
     public String convertTemperatureIfNeeded(String temperature) {
         if (shouldUseFahrenheit() && temperature != null && !temperature.isEmpty()) {
             return celsiusToFahrenheit(temperature);
         }
         return temperature;
     }
+    
     // 检查是否需要转换温度单位并进行转换
     private void convertTemperatureIfNeeded(WeatherData data) {
         if (data == null || data.isError()) {
             return;
         }
 
-        // 检查是否使用华氏度
         if (shouldUseFahrenheit()) {
-            // 转换主温度
+            // 转换温度
             if (data.getTemperature() != null && !data.getTemperature().isEmpty()) {
                 String fahrenheitTemp = celsiusToFahrenheit(data.getTemperature());
                 data.setTemperature(fahrenheitTemp);
             }
 
-            // 转换低温（如果有）
+            // 转换低温
             if (data.getLowTemp() != null && !data.getLowTemp().isEmpty()) {
                 String fahrenheitLowTemp = celsiusToFahrenheit(data.getLowTemp());
                 data.setLowTemp(fahrenheitLowTemp);
@@ -102,13 +99,12 @@ public class WeatherController {
         }
     }
 
-    // 检查是否需要转换预报温度并进行转换
+    // 转换预报温度
     private void convertForecastTemperaturesIfNeeded(ForecastData forecastData) {
         if (forecastData == null || forecastData.isError() || forecastData.getDailyForecasts() == null) {
             return;
         }
 
-        // 如果需要使用华氏度
         if (shouldUseFahrenheit()) {
             for (ForecastData.DayForecast day : forecastData.getDailyForecasts()) {
                 // 转换高温
@@ -126,16 +122,16 @@ public class WeatherController {
         }
     }
 
-    // 检查用户是否选择使用华氏度
+    // 检查是否使用华氏度
     private boolean shouldUseFahrenheit() {
         SharedPreferences prefs = view.getSharedPreferences("WeatherAppPrefs", Context.MODE_PRIVATE);
-        return prefs.getBoolean("use_fahrenheit", false);  // 默认使用摄氏度
+        return prefs.getBoolean("use_fahrenheit", false);
     }
 
-    // 将摄氏度转换为华氏度
+    // 摄氏度转华氏度
     private String celsiusToFahrenheit(String celsiusTemp) {
         try {
-            // 移除可能存在的温度符号
+            // 移除温度符号
             String temp = celsiusTemp;
             if (temp.contains("°C")) {
                 temp = temp.replace("°C", "");
@@ -146,7 +142,6 @@ public class WeatherController {
             float celsius = Float.parseFloat(temp);
             float fahrenheit = celsius * 9/5 + 32;
 
-            // 格式化并返回
             return String.format("%.1f°F", fahrenheit);
         } catch (NumberFormatException e) {
             Log.e(TAG, "温度转换错误: " + celsiusTemp, e);

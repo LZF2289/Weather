@@ -19,20 +19,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 重要：这是HistoryActivity.java中引用的RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:clipToPadding="false"
+        android:contentDescription="@string/history"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHistoryTitle" />
 
-    <!-- 重要：这是HistoryActivity.java中引用的"无历史记录"提示 -->
     <TextView
         android:id="@+id/textViewNoHistory"
         android:layout_width="0dp"
@@ -46,7 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 重要：这是HistoryActivity.java中引用的清空按钮 -->
     <Button
         android:id="@+id/buttonClearHistory"
         android:layout_width="wrap_content"
